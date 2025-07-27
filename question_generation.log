@@ -1,0 +1,105 @@
+2025-07-27 17:34:05,370 - llm_service - ERROR - 所有LLM调用失败: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-b6bed***********************e227. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-07-27 17:34:05,370 - nodes.analyzer - ERROR - 文档分析失败: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-b6bed***********************e227. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-07-27 17:34:05,372 - question_generator_graph - ERROR - 工作流出现错误: 文档分析失败: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-b6bed***********************e227. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-07-27 17:34:05,373 - question_generator_graph - ERROR - 工作流运行异常: 'dict' object has no attribute 'current_step'
+2025-07-27 17:34:05,373 - __main__ - ERROR - 题目生成失败: 'dict' object has no attribute 'current_step'
+2025-07-27 17:37:30,807 - nodes.analyzer - ERROR - 文档分析失败: 所有LLM都不可用
+2025-07-27 17:37:30,811 - question_generator_graph - ERROR - 工作流出现错误: 文档分析失败: 所有LLM都不可用
+2025-07-27 17:37:30,812 - question_generator_graph - ERROR - 题目生成工作流失败: 文档分析失败: 所有LLM都不可用
+2025-07-27 17:37:30,812 - __main__ - ERROR - 题目生成失败: 文档分析失败: 所有LLM都不可用
+2025-07-27 17:41:13,543 - nodes.analyzer - ERROR - 文档分析失败: 所有LLM都不可用: request_id: 0a7639c8-3411-9e3a-9328-580cee970ee3 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:41:13,547 - question_generator_graph - ERROR - 工作流出现错误: 文档分析失败: 所有LLM都不可用: request_id: 0a7639c8-3411-9e3a-9328-580cee970ee3 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:41:13,547 - question_generator_graph - ERROR - 题目生成工作流失败: 文档分析失败: 所有LLM都不可用: request_id: 0a7639c8-3411-9e3a-9328-580cee970ee3 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:41:13,548 - __main__ - ERROR - 题目生成失败: 文档分析失败: 所有LLM都不可用: request_id: 0a7639c8-3411-9e3a-9328-580cee970ee3 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:41:50,232 - nodes.analyzer - ERROR - 文档分析失败: 所有LLM都不可用: request_id: ae2f6551-8578-947c-815d-1795308d351b 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:41:50,234 - question_generator_graph - ERROR - 工作流出现错误: 文档分析失败: 所有LLM都不可用: request_id: ae2f6551-8578-947c-815d-1795308d351b 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:41:50,235 - question_generator_graph - ERROR - 题目生成工作流失败: 文档分析失败: 所有LLM都不可用: request_id: ae2f6551-8578-947c-815d-1795308d351b 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:41:50,235 - __main__ - ERROR - 题目生成失败: 文档分析失败: 所有LLM都不可用: request_id: ae2f6551-8578-947c-815d-1795308d351b 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:44:32,723 - nodes.analyzer - ERROR - 文档分析失败: 所有LLM都不可用: request_id: 45493e0a-6600-915c-8053-bf899306d508 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:44:32,726 - question_generator_graph - ERROR - 工作流出现错误: 文档分析失败: 所有LLM都不可用: request_id: 45493e0a-6600-915c-8053-bf899306d508 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:44:32,727 - question_generator_graph - ERROR - 题目生成工作流失败: 文档分析失败: 所有LLM都不可用: request_id: 45493e0a-6600-915c-8053-bf899306d508 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:44:32,727 - __main__ - ERROR - 题目生成失败: 文档分析失败: 所有LLM都不可用: request_id: 45493e0a-6600-915c-8053-bf899306d508 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:44:37,936 - nodes.analyzer - ERROR - 文档分析失败: 所有LLM都不可用: request_id: fc6175a5-de9b-933c-961b-b3b49ae97a21 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:44:37,939 - question_generator_graph - ERROR - 工作流出现错误: 文档分析失败: 所有LLM都不可用: request_id: fc6175a5-de9b-933c-961b-b3b49ae97a21 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:44:37,939 - question_generator_graph - ERROR - 题目生成工作流失败: 文档分析失败: 所有LLM都不可用: request_id: fc6175a5-de9b-933c-961b-b3b49ae97a21 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:44:37,940 - __main__ - ERROR - 题目生成失败: 文档分析失败: 所有LLM都不可用: request_id: fc6175a5-de9b-933c-961b-b3b49ae97a21 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:50:44,544 - nodes.analyzer - ERROR - 文档分析失败: 所有LLM都不可用: request_id: 5741bd4b-602b-9d01-902e-551ab16064ea 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:50:44,548 - question_generator_graph - ERROR - 工作流出现错误: 文档分析失败: 所有LLM都不可用: request_id: 5741bd4b-602b-9d01-902e-551ab16064ea 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:50:44,549 - question_generator_graph - ERROR - 题目生成工作流失败: 文档分析失败: 所有LLM都不可用: request_id: 5741bd4b-602b-9d01-902e-551ab16064ea 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:50:44,549 - __main__ - ERROR - 题目生成失败: 文档分析失败: 所有LLM都不可用: request_id: 5741bd4b-602b-9d01-902e-551ab16064ea 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:50:52,085 - nodes.analyzer - ERROR - 文档分析失败: 所有LLM都不可用: request_id: 7618714d-181f-9175-9c95-f2f467d7b058 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:50:52,088 - question_generator_graph - ERROR - 工作流出现错误: 文档分析失败: 所有LLM都不可用: request_id: 7618714d-181f-9175-9c95-f2f467d7b058 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:50:52,088 - question_generator_graph - ERROR - 题目生成工作流失败: 文档分析失败: 所有LLM都不可用: request_id: 7618714d-181f-9175-9c95-f2f467d7b058 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.
+2025-07-27 17:50:52,088 - __main__ - ERROR - 题目生成失败: 文档分析失败: 所有LLM都不可用: request_id: 7618714d-181f-9175-9c95-f2f467d7b058 
+ status_code: 401 
+ code: InvalidApiKey 
+ message: Invalid API-key provided.

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器学习基础 - 智能题目生成系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            background: #f5f5f7;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 20px 0;
+        }
+
+        .header-content {
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-meta {
+            color: #86868b;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            margin: 40px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            flex: 1;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 16px 20px;
+            text-decoration: none;
+            color: #1d1d1f;
+            text-align: center;
+            font-weight: 500;
+            border-right: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:last-child .nav-link {
+            border-right: none;
+        }
+
+        .nav-link:hover {
+            background: #f5f5f7;
+            color: #007AFF;
+        }
+
+        /* Content Cards */
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* Document Content */
+        .document-content h1,
+        .document-content h2,
+        .document-content h3 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .document-content h1 {
+            font-size: 2.5rem;
+            color: #1d1d1f;
+            border-bottom: 2px solid #007AFF;
+            padding-bottom: 10px;
+        }
+
+        .document-content h2 {
+            font-size: 1.8rem;
+            color: #515154;
+        }
+
+        .document-content h3 {
+            font-size: 1.4rem;
+            color: #86868b;
+        }
+
+        .document-content ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .document-content li {
+            margin: 0.5rem 0;
+        }
+
+        .document-content strong {
+            color: #007AFF;
+            font-weight: 600;
+        }
+
+        /* Questions */
+        .question {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-left: 4px solid #007AFF;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-id {
+            background: #007AFF;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .difficulty {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .difficulty.easy {
+            background: #34C759;
+            color: white;
+        }
+
+        .difficulty.medium {
+            background: #FF9500;
+            color: white;
+        }
+
+        .difficulty.hard {
+            background: #FF3B30;
+            color: white;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Multiple Choice */
+        .options {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .option {
+            padding: 12px 20px;
+            margin: 8px 0;
+            border-radius: 8px;
+            background: white;
+            border: 2px solid #e5e5e7;
+            transition: all 0.3s ease;
+        }
+
+        .option.correct {
+            background: #e8f5e8;
+            border-color: #34C759;
+            color: #1f8b1f;
+            font-weight: 500;
+        }
+
+        /* Fill in the Blank */
+        .blank {
+            display: inline-block;
+            background: #007AFF;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            margin: 0 2px;
+        }
+
+        /* Matching */
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .matching-column {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .matching-column h4 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #86868b;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .matching-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 3px solid #007AFF;
+        }
+
+        /* Explanation */
+        .explanation {
+            background: #f0f8ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 3px solid #007AFF;
+        }
+
+        .explanation-label {
+            font-weight: 600;
+            color: #007AFF;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        /* Statistics */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #007AFF;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #86868b;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .nav-list {
+                flex-direction: column;
+            }
+
+            .nav-link {
+                border-right: none;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .nav-item:last-child .nav-link {
+                border-bottom: none;
+            }
+
+            .matching-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>机器学习基础</h1>
+                <div class="header-meta">
+                    智能题目生成系统 · 生成于 2025年7月27日
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#document" class="nav-link">📄 原文内容</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#multiple-choice" class="nav-link">📝 选择题</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#fill-blank" class="nav-link">✏️ 填空题</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#matching" class="nav-link">🔗 连线题</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">总题目数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">选择题</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">填空题</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">连线题</div>
+            </div>
+        </div>
+
+        <!-- Document Content -->
+        <section id="document" class="section">
+            <h2 class="section-title">📄 原文内容</h2>
+            <div class="card">
+                <div class="document-content">
+                    <h1>机器学习基础</h1>
+
+                    <h2>什么是机器学习</h2>
+                    <p>机器学习是人工智能的一个重要分支，它使计算机能够在不被明确编程的情况下进行学习。机器学习算法通过分析数据来识别模式，并基于这些模式做出预测或决策。</p>
+
+                    <h2>主要类型</h2>
+
+                    <h3>监督学习</h3>
+                    <p>监督学习使用标记的训练数据来学习从输入到输出的映射。常见的监督学习任务包括：</p>
+                    <ul>
+                        <li><strong>分类</strong>：预测离散的类别标签</li>
+                        <li><strong>回归</strong>：预测连续的数值</li>
+                    </ul>
+
+                    <h3>无监督学习</h3>
+                    <p>无监督学习从未标记的数据中发现隐藏的模式。主要包括：</p>
+                    <ul>
+                        <li><strong>聚类</strong>：将相似的数据点分组</li>
+                        <li><strong>降维</strong>：减少数据的特征数量</li>
+                        <li><strong>关联规则学习</strong>：发现变量之间的关系</li>
+                    </ul>
+
+                    <h3>强化学习</h3>
+                    <p>强化学习通过与环境的交互来学习最优策略。智能体通过试错来学习如何在特定环境中采取行动以最大化累积奖励。</p>
+
+                    <h2>常用算法</h2>
+                    <ol>
+                        <li><strong>线性回归</strong>：用于预测连续值的基础算法</li>
+                        <li><strong>逻辑回归</strong>：用于二分类问题的线性模型</li>
+                        <li><strong>决策树</strong>：基于树结构进行决策的算法</li>
+                        <li><strong>随机森林</strong>：集成多个决策树的算法</li>
+                        <li><strong>支持向量机</strong>：在高维空间中寻找最优分离超平面</li>
+                        <li><strong>神经网络</strong>：模拟人脑神经元的网络结构</li>
+                    </ol>
+
+                    <h2>应用领域</h2>
+                    <p>机器学习在各个领域都有广泛应用：</p>
+                    <ul>
+                        <li>图像识别和计算机视觉</li>
+                        <li>自然语言处理</li>
+                        <li>推荐系统</li>
+                        <li>金融风险评估</li>
+                        <li>医疗诊断</li>
+                        <li>自动驾驶</li>
+                    </ul>
+
+                    <h2>关键概念</h2>
+                    <ul>
+                        <li><strong>特征</strong>：用于训练模型的输入变量</li>
+                        <li><strong>标签</strong>：监督学习中的目标输出</li>
+                        <li><strong>训练集</strong>：用于训练模型的数据</li>
+                        <li><strong>测试集</strong>：用于评估模型性能的数据</li>
+                        <li><strong>过拟合</strong>：模型在训练数据上表现很好但在新数据上表现较差</li>
+                        <li><strong>欠拟合</strong>：模型过于简单，无法捕获数据中的模式</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Multiple Choice Questions -->
+        <section id="multiple-choice" class="section">
+            <h2 class="section-title">📝 选择题</h2>
+
+            <div class="card">
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">mc_001</span>
+                        <span class="difficulty easy">简单</span>
+                    </div>
+                    <div class="question-text">以下关于机器学习的描述，哪一项是正确的？</div>
+                    <ul class="options">
+                        <li class="option correct">A. 机器学习是人工智能的一个分支，通过数据学习规律并做出预测或决策</li>
+                        <li class="option">B. 机器学习主要依赖规则系统进行预测，而不使用数据</li>
+                        <li class="option">C. 机器学习是计算机视觉的子领域，专注于图像识别任务</li>
+                        <li class="option">D. 机器学习仅用于无监督学习任务</li>
+                    </ul>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>机器学习确实是人工智能的一个分支，其核心思想是利用数据来训练模型，从而发现数据中的规律，并用于预测或决策。其他选项描述的都不是机器学习的核心特征。</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">mc_002</span>
+                        <span class="difficulty easy">简单</span>
+                    </div>
+                    <div class="question-text">以下哪一项是监督学习的典型任务？</div>
+                    <ul class="options">
+                        <li class="option correct">A. 分类</li>
+                        <li class="option">B. 聚类</li>
+                        <li class="option">C. 降维</li>
+                        <li class="option">D. 关联规则学习</li>
+                    </ul>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>监督学习包括分类和回归两种主要任务类型。分类任务的目标是预测离散的类别标签，而回归任务则预测连续数值。聚类、降维和关联规则学习属于无监督学习。</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">mc_003</span>
+                        <span class="difficulty easy">简单</span>
+                    </div>
+                    <div class="question-text">以下哪一项属于无监督学习的任务？</div>
+                    <ul class="options">
+                        <li class="option">A. 回归</li>
+                        <li class="option">B. 分类</li>
+                        <li class="option correct">C. 聚类</li>
+                        <li class="option">D. 强化学习</li>
+                    </ul>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>无监督学习通常用于没有标签数据的场景，常见的任务包括聚类（如K-means）、降维（如PCA）和关联规则学习（如Apriori算法）。分类和回归是监督学习任务，而强化学习是另一种学习范式。</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">mc_004</span>
+                        <span class="difficulty easy">简单</span>
+                    </div>
+                    <div class="question-text">强化学习的主要特点是什么？</div>
+                    <ul class="options">
+                        <li class="option">A. 使用带标签的数据进行训练</li>
+                        <li class="option">B. 使用未标记的数据寻找数据结构</li>
+                        <li class="option correct">C. 通过与环境交互学习最优策略</li>
+                        <li class="option">D. 通过已知输入输出关系建立预测模型</li>
+                    </ul>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>强化学习是一种通过与环境进行交互，根据反馈信号（奖励或惩罚）来学习最优策略的学习方式。它不同于监督学习和无监督学习，不依赖于带标签的数据或直接的数据结构分析。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fill in the Blank Questions -->
+        <section id="fill-blank" class="section">
+            <h2 class="section-title">✏️ 填空题</h2>
+
+            <div class="card">
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">fb_001</span>
+                        <span class="difficulty medium">中等</span>
+                    </div>
+                    <div class="question-text">
+                        无监督学习主要包括<span class="blank">聚类</span>、<span class="blank">降维</span>和关联规则学习等任务类型。
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>无监督学习是在没有标签的情况下对数据进行建模，常见任务包括聚类（如K-means）、降维（如PCA）和关联规则学习（如Apriori算法）。</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">fb_002</span>
+                        <span class="difficulty medium">中等</span>
+                    </div>
+                    <div class="question-text">
+                        强化学习通过与<span class="blank">环境</span>进行交互来学习<span class="blank">最优</span>策略，以最大化累积奖励。
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>强化学习是一种通过试错机制与环境交互以学习最优策略的学习范式，常见算法包括Q-learning和Deep Q-Networks（DQN）。</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">fb_003</span>
+                        <span class="difficulty medium">中等</span>
+                    </div>
+                    <div class="question-text">
+                        线性回归是一种用于<span class="blank">回归</span>任务的算法，它假设特征与目标之间存在<span class="blank">线性</span>关系。
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>线性回归是回归任务中最基础的模型，通过拟合一个线性函数来预测连续型目标变量。</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">fb_004</span>
+                        <span class="difficulty medium">中等</span>
+                    </div>
+                    <div class="question-text">
+                        逻辑回归是一种用于<span class="blank">二分类</span>问题的监督学习方法，它通过<span class="blank">sigmoid</span>函数将线性输出映射为概率。
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>逻辑回归是一种广义线性模型，适用于二分类任务，使用sigmoid函数将线性结果转化为类别的概率估计。</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">fb_005</span>
+                        <span class="difficulty medium">中等</span>
+                    </div>
+                    <div class="question-text">
+                        决策树是一种基于<span class="blank">树</span>结构的机器学习方法，其主要优点是具有良好的<span class="blank">可解释</span>性。
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>决策树通过递归划分特征空间构建树状结构，每个节点代表一个特征判断，叶节点代表最终决策，具有较高的可解释性和可视化能力。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Matching Questions -->
+        <section id="matching" class="section">
+            <h2 class="section-title">🔗 连线题</h2>
+
+            <div class="card">
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">mt_001</span>
+                        <span class="difficulty medium">中等</span>
+                    </div>
+                    <div class="question-text">请将下列机器学习模型或概念与其对应的定义进行匹配：</div>
+                    <div class="matching-container">
+                        <div class="matching-column">
+                            <h4>概念</h4>
+                            <div class="matching-item">逻辑回归</div>
+                            <div class="matching-item">决策树</div>
+                            <div class="matching-item">随机森林</div>
+                            <div class="matching-item">支持向量机</div>
+                        </div>
+                        <div class="matching-column">
+                            <h4>定义</h4>
+                            <div class="matching-item">用于二分类问题，属于监督学习方法</div>
+                            <div class="matching-item">通过树结构进行决策，具有可解释性</div>
+                            <div class="matching-item">基于多个决策树的集成学习方法</div>
+                            <div class="matching-item">通过寻找最优超平面实现分类</div>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>逻辑回归是一种用于二分类任务的监督学习方法；决策树使用树形结构进行决策，具备良好的可解释性；随机森林是一种集成方法，结合多个决策树提升性能；支持向量机通过最大化分类边界来寻找最优超平面。</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">mt_002</span>
+                        <span class="difficulty easy">简单</span>
+                    </div>
+                    <div class="question-text">请将下列术语与其对应的描述进行匹配：</div>
+                    <div class="matching-container">
+                        <div class="matching-column">
+                            <h4>术语</h4>
+                            <div class="matching-item">特征</div>
+                            <div class="matching-item">标签</div>
+                            <div class="matching-item">训练集</div>
+                            <div class="matching-item">测试集</div>
+                        </div>
+                        <div class="matching-column">
+                            <h4>描述</h4>
+                            <div class="matching-item">用于建模的输入变量</div>
+                            <div class="matching-item">模型学习的目标输出</div>
+                            <div class="matching-item">用于训练模型的数据集</div>
+                            <div class="matching-item">用于评估模型性能的数据集</div>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>特征是模型使用的输入变量；标签是模型要预测的目标输出；训练集用于模型训练；测试集用于模型性能评估。匹配关系清晰明确。</div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-header">
+                        <span class="question-id">mt_003</span>
+                        <span class="difficulty hard">困难</span>
+                    </div>
+                    <div class="question-text">请将下列算法与其适用场景进行匹配：</div>
+                    <div class="matching-container">
+                        <div class="matching-column">
+                            <h4>算法</h4>
+                            <div class="matching-item">逻辑回归</div>
+                            <div class="matching-item">决策树</div>
+                            <div class="matching-item">神经网络</div>
+                            <div class="matching-item">支持向量机</div>
+                        </div>
+                        <div class="matching-column">
+                            <h4>适用场景</h4>
+                            <div class="matching-item">适用于二分类问题且输出具有概率意义</div>
+                            <div class="matching-item">适用于需要可解释性的决策过程</div>
+                            <div class="matching-item">适用于复杂模式识别任务</div>
+                            <div class="matching-item">用于线性可分或近似线性可分的分类问题</div>
+                        </div>
+                    </div>
+                    <div class="explanation">
+                        <div class="explanation-label">解析</div>
+                        <div>逻辑回归适合输出为概率的二分类任务；决策树因其可解释性强常用于需要透明决策的场景；神经网络擅长处理复杂非线性模式；支持向量机在处理线性或近似线性问题时效果优异。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active class to navigation based on scroll position
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

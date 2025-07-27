@@ -1,0 +1,323 @@
+{
+  "metadata": {
+    "document_title": "sample_document",
+    "generated_at": "2025-07-27T18:19:31.635452",
+    "statistics": {
+      "total_questions": 12,
+      "multiple_choice_count": 4,
+      "fill_in_the_blank_count": 5,
+      "matching_count": 3,
+      "generation_timestamp": "2025-07-27T18:19:31.635452"
+    },
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "quality_score": 1.0
+    }
+  },
+  "questions": {
+    "multiple_choice": [
+      {
+        "question_id": "mc_001",
+        "question_type": "multiple_choice",
+        "question_text": "以下关于机器学习的描述，哪一项是正确的？",
+        "difficulty": "easy",
+        "topic": "主要主题",
+        "explanation": "机器学习确实是人工智能的一个分支，其核心思想是利用数据来训练模型，从而发现数据中的规律，并用于预测或决策。其他选项描述的都不是机器学习的核心特征。",
+        "options": [
+          "A. 机器学习是人工智能的一个分支，通过数据学习规律并做出预测或决策",
+          "B. 机器学习主要依赖规则系统进行预测，而不使用数据",
+          "C. 机器学习是计算机视觉的子领域，专注于图像识别任务",
+          "D. 机器学习仅用于无监督学习任务"
+        ],
+        "correct_answer": "A. 机器学习是人工智能的一个分支，通过数据学习规律并做出预测或决策"
+      },
+      {
+        "question_id": "mc_002",
+        "question_type": "multiple_choice",
+        "question_text": "以下哪一项是监督学习的典型任务？",
+        "difficulty": "easy",
+        "topic": "关键知识点",
+        "explanation": "监督学习包括分类和回归两种主要任务类型。分类任务的目标是预测离散的类别标签，而回归任务则预测连续数值。聚类、降维和关联规则学习属于无监督学习。",
+        "options": [
+          "A. 分类",
+          "B. 聚类",
+          "C. 降维",
+          "D. 关联规则学习"
+        ],
+        "correct_answer": "A. 分类"
+      },
+      {
+        "question_id": "mc_003",
+        "question_type": "multiple_choice",
+        "question_text": "以下哪一项属于无监督学习的任务？",
+        "difficulty": "easy",
+        "topic": "关键知识点",
+        "explanation": "无监督学习通常用于没有标签数据的场景，常见的任务包括聚类、降维和关联规则学习。分类和回归是监督学习任务，而强化学习是另一种学习范式。",
+        "options": [
+          "A. 回归",
+          "B. 分类",
+          "C. 聚类",
+          "D. 强化学习"
+        ],
+        "correct_answer": "C. 聚类"
+      },
+      {
+        "question_id": "mc_004",
+        "question_type": "multiple_choice",
+        "question_text": "强化学习的主要特点是什么？",
+        "difficulty": "easy",
+        "topic": "关键知识点",
+        "explanation": "强化学习是一种通过与环境进行交互，根据反馈信号（奖励或惩罚）来学习最优策略的学习方式。它不同于监督学习和无监督学习，不依赖于带标签的数据或直接的数据结构分析。",
+        "options": [
+          "A. 使用带标签的数据进行训练",
+          "B. 使用未标记的数据寻找数据结构",
+          "C. 通过与环境交互学习最优策略",
+          "D. 通过已知输入输出关系建立预测模型"
+        ],
+        "correct_answer": "C. 通过与环境交互学习最优策略"
+      }
+    ],
+    "fill_in_the_blank": [
+      {
+        "question_id": "fb_001",
+        "question_type": "fill_in_the_blank",
+        "question_text": "无监督学习主要包括____、____和关联规则学习等任务类型。",
+        "difficulty": "medium",
+        "topic": "机器学习基础",
+        "explanation": "无监督学习是在没有标签的情况下对数据进行建模，常见任务包括聚类（如K-means）、降维（如PCA）和关联规则学习（如Apriori算法）。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "聚类",
+            "hint": "将数据划分为相似组的算法类型"
+          },
+          {
+            "position": 2,
+            "correct_answer": "降维",
+            "hint": "减少特征数量同时保留重要信息的方法"
+          }
+        ]
+      },
+      {
+        "question_id": "fb_002",
+        "question_type": "fill_in_the_blank",
+        "question_text": "强化学习通过与____进行交互来学习____策略，以最大化累积奖励。",
+        "difficulty": "medium",
+        "topic": "机器学习基础",
+        "explanation": "强化学习是一种通过试错机制与环境交互以学习最优策略的学习范式，常见算法包括Q-learning和Deep Q-Networks（DQN）。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "环境",
+            "hint": "智能体所处的交互空间"
+          },
+          {
+            "position": 2,
+            "correct_answer": "最优",
+            "hint": "期望获得的最佳行为方案"
+          }
+        ]
+      },
+      {
+        "question_id": "fb_003",
+        "question_type": "fill_in_the_blank",
+        "question_text": "线性回归是一种用于____任务的算法，它假设特征与目标之间存在____关系。",
+        "difficulty": "medium",
+        "topic": "回归分析",
+        "explanation": "线性回归是回归任务中最基础的模型，通过拟合一个线性函数来预测连续型目标变量。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "回归",
+            "hint": "预测连续数值的任务类型"
+          },
+          {
+            "position": 2,
+            "correct_answer": "线性",
+            "hint": "变量间呈直线关系"
+          }
+        ]
+      },
+      {
+        "question_id": "fb_004",
+        "question_type": "fill_in_the_blank",
+        "question_text": "逻辑回归是一种用于____问题的监督学习方法，它通过____函数将线性输出映射为概率。",
+        "difficulty": "medium",
+        "topic": "分类算法",
+        "explanation": "逻辑回归是一种广义线性模型，适用于二分类任务，使用sigmoid函数将线性结果转化为类别的概率估计。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "二分类",
+            "hint": "输出为两个类别的任务"
+          },
+          {
+            "position": 2,
+            "correct_answer": "sigmoid",
+            "hint": "将数值压缩到0到1之间的非线性函数"
+          }
+        ]
+      },
+      {
+        "question_id": "fb_005",
+        "question_type": "fill_in_the_blank",
+        "question_text": "决策树是一种基于____结构的机器学习方法，其主要优点是具有良好的____性。",
+        "difficulty": "medium",
+        "topic": "分类与回归树",
+        "explanation": "决策树通过递归划分特征空间构建树状结构，每个节点代表一个特征判断，叶节点代表最终决策，具有较高的可解释性和可视化能力。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "树",
+            "hint": "一种分层的数据结构"
+          },
+          {
+            "position": 2,
+            "correct_answer": "可解释",
+            "hint": "易于理解和可视化"
+          }
+        ]
+      }
+    ],
+    "matching": [
+      {
+        "question_id": "mt_001",
+        "question_type": "matching",
+        "question_text": "请将下列机器学习模型或概念与其对应的定义进行匹配：",
+        "difficulty": "medium",
+        "topic": "主要主题",
+        "explanation": "逻辑回归是一种用于二分类任务的监督学习方法；决策树使用树形结构进行决策，具备良好的可解释性；随机森林是一种集成方法，结合多个决策树提升性能；支持向量机通过最大化分类边界来寻找最优超平面。",
+        "left_items": [
+          "逻辑回归",
+          "决策树",
+          "随机森林",
+          "支持向量机"
+        ],
+        "right_items": [
+          "通过树结构进行决策，具有可解释性",
+          "用于二分类问题，属于监督学习方法",
+          "基于多个决策树的集成学习方法",
+          "通过寻找最优超平面实现分类"
+        ],
+        "correct_pairs": [
+          {
+            "left_item": "逻辑回归",
+            "right_item": "用于二分类问题，属于监督学习方法"
+          },
+          {
+            "left_item": "决策树",
+            "right_item": "通过树结构进行决策，具有可解释性"
+          },
+          {
+            "left_item": "随机森林",
+            "right_item": "基于多个决策树的集成学习方法"
+          },
+          {
+            "left_item": "支持向量机",
+            "right_item": "通过寻找最优超平面实现分类"
+          }
+        ]
+      },
+      {
+        "question_id": "mt_002",
+        "question_type": "matching",
+        "question_text": "请将下列术语与其对应的描述进行匹配：",
+        "difficulty": "easy",
+        "topic": "主要主题",
+        "explanation": "特征是模型使用的输入变量；标签是模型要预测的目标输出；训练集用于模型训练；测试集用于模型性能评估。匹配关系清晰明确。",
+        "left_items": [
+          "特征",
+          "标签",
+          "训练集",
+          "测试集"
+        ],
+        "right_items": [
+          "用于评估模型性能的数据集",
+          "模型学习的目标输出",
+          "用于训练模型的数据集",
+          "用于建模的输入变量"
+        ],
+        "correct_pairs": [
+          {
+            "left_item": "特征",
+            "right_item": "用于建模的输入变量"
+          },
+          {
+            "left_item": "标签",
+            "right_item": "模型学习的目标输出"
+          },
+          {
+            "left_item": "训练集",
+            "right_item": "用于训练模型的数据集"
+          },
+          {
+            "left_item": "测试集",
+            "right_item": "用于评估模型性能的数据集"
+          }
+        ]
+      },
+      {
+        "question_id": "mt_003",
+        "question_type": "matching",
+        "question_text": "请将下列算法与其适用场景进行匹配：",
+        "difficulty": "hard",
+        "topic": "主要主题",
+        "explanation": "逻辑回归适合输出为概率的二分类任务；决策树因其可解释性强常用于需要透明决策的场景；神经网络擅长处理复杂非线性模式；支持向量机在处理线性或近似线性问题时效果优异。",
+        "left_items": [
+          "逻辑回归",
+          "决策树",
+          "神经网络",
+          "支持向量机"
+        ],
+        "right_items": [
+          "适用于复杂模式识别任务",
+          "用于线性可分或近似线性可分的分类问题",
+          "适用于需要可解释性的决策过程",
+          "适用于二分类问题且输出具有概率意义"
+        ],
+        "correct_pairs": [
+          {
+            "left_item": "逻辑回归",
+            "right_item": "适用于二分类问题且输出具有概率意义"
+          },
+          {
+            "left_item": "决策树",
+            "right_item": "适用于需要可解释性的决策过程"
+          },
+          {
+            "left_item": "神经网络",
+            "right_item": "适用于复杂模式识别任务"
+          },
+          {
+            "left_item": "支持向量机",
+            "right_item": "用于线性可分或近似线性可分的分类问题"
+          }
+        ]
+      }
+    ]
+  },
+  "document_analysis": {
+    "topics": [
+      "主要主题",
+      "机器学习的基本概念",
+      "机器学习的主要类型及其应用场景",
+      "常见的机器学习算法与关键术语",
+      "模型评估与学习问题（过拟合与欠拟合）"
+    ],
+    "key_points": [
+      "关键知识点",
+      "机器学习是人工智能的一个分支，通过数据学习规律并做出预测或决策",
+      "监督学习包括分类和回归两种主要任务类型",
+      "无监督学习包括聚类、降维和关联规则学习",
+      "强化学习通过与环境交互学习最优策略",
+      "线性回归用于预测连续值，是回归任务的基础算法",
+      "逻辑回归用于二分类问题，属于监督学习方法",
+      "决策树通过树结构进行决策，具有可解释性",
+      "随机森林是基于多个决策树的集成学习方法",
+      "支持向量机通过寻找最优超平面实现分类",
+      "神经网络模拟人脑神经元结构，适用于复杂模式识别",
+      "特征、标签、训练集和测试集是构建模型的基本要素"
+    ]
+  }
+}
