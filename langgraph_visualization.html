@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangGraph 工作流可视化</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .graph-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .graph-title {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .workflow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .node {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 3px solid;
+        }
+
+        .node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .node.start {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #81C784, #66BB6A);
+            color: white;
+        }
+
+        .node.processor {
+            border-color: #2196F3;
+            background: linear-gradient(135deg, #64B5F6, #42A5F5);
+            color: white;
+        }
+
+        .node.analyzer {
+            border-color: #9C27B0;
+            background: linear-gradient(135deg, #BA68C8, #AB47BC);
+            color: white;
+        }
+
+        .node.generator {
+            border-color: #FF9800;
+            background: linear-gradient(135deg, #FFB74D, #FFA726);
+            color: white;
+        }
+
+        .node.formatter {
+            border-color: #00BCD4;
+            background: linear-gradient(135deg, #4FC3F7, #29B6F6);
+            color: white;
+        }
+
+        .node.error {
+            border-color: #F44336;
+            background: linear-gradient(135deg, #E57373, #EF5350);
+            color: white;
+        }
+
+        .node.end {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, #A5D6A7, #81C784);
+            color: white;
+        }
+
+        .node-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .node-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 20px solid #666;
+            margin: 10px 0;
+        }
+
+        .conditional-arrow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .diamond {
+            width: 80px;
+            height: 80px;
+            background: #FFC107;
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .diamond-text {
+            transform: rotate(-45deg);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+        }
+
+        .parallel-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .legend {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .legend-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .parallel-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .flow-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .graph-container {
+                padding: 20px;
+            }
+
+            .node {
+                min-width: 150px;
+                padding: 15px;
+            }
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .status-pending {
+            background: #FFC107;
+        }
+
+        .status-running {
+            background: #2196F3;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-completed {
+            background: #4CAF50;
+        }
+
+        .status-error {
+            background: #F44336;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 LangGraph 工作流可视化</h1>
+            <p>智能题目生成系统 - 工作流程图</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">7</div>
+                <div class="stat-label">工作流节点</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">条件判断</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">题目类型</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1</div>
+                <div class="stat-label">错误处理</div>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <h2 class="graph-title">📊 工作流程图</h2>
+            
+            <div class="workflow-diagram">
+                <!-- 开始节点 -->
+                <div class="node start">
+                    <div class="node-title">🚀 开始</div>
+                    <div class="node-description">工作流启动</div>
+                    <div class="status-indicator status-completed"></div>
+                </div>
+
+                <div class="arrow"></div>
+
+                <!-- 文档处理器 -->
+                <div class="node processor">
+                    <div class="node-title">📄 文档处理器</div>
+                    <div class="node-description">加载和预处理Markdown文档</div>
+                    <div class="status-indicator status-completed"></div>
+                </div>
+
+                <!-- 条件判断1 -->
+                <div class="conditional-arrow">
+                    <div class="diamond">
+                        <div class="diamond-text">处理<br/>成功?</div>
+                    </div>
+                </div>
+
+                <!-- 分支 -->
+                <div class="flow-row">
+                    <div style="text-align: center;">
+                        <div style="color: #4CAF50; font-weight: 600; margin-bottom: 10px;">✅ 成功</div>
+                        <div class="node analyzer">
+                            <div class="node-title">🔍 文档分析器</div>
+                            <div class="node-description">提取关键点和主题</div>
+                            <div class="status-indicator status-completed"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <div style="color: #F44336; font-weight: 600; margin-bottom: 10px;">❌ 失败</div>
+                        <div class="node error">
+                            <div class="node-title">⚠️ 错误处理器</div>
+                            <div class="node-description">处理和记录错误</div>
+                            <div class="status-indicator status-pending"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 条件判断2 -->
+                <div class="conditional-arrow">
+                    <div class="diamond">
+                        <div class="diamond-text">分析<br/>成功?</div>
+                    </div>
+                </div>
+
+                <!-- 题目生成器并行处理 -->
+                <div style="text-align: center; margin: 20px 0;">
+                    <div style="color: #4CAF50; font-weight: 600; margin-bottom: 20px;">✅ 成功 → 并行生成题目</div>
+                    
+                    <div class="parallel-container">
+                        <div class="node generator">
+                            <div class="node-title">📝 选择题生成器</div>
+                            <div class="node-description">生成多选题</div>
+                            <div class="status-indicator status-completed"></div>
+                        </div>
+                        
+                        <div style="align-self: center; color: #666; font-size: 1.5rem;">→</div>
+                        
+                        <div class="node generator">
+                            <div class="node-title">✏️ 填空题生成器</div>
+                            <div class="node-description">生成填空题</div>
+                            <div class="status-indicator status-completed"></div>
+                        </div>
+                        
+                        <div style="align-self: center; color: #666; font-size: 1.5rem;">→</div>
+                        
+                        <div class="node generator">
+                            <div class="node-title">🔗 连线题生成器</div>
+                            <div class="node-description">生成匹配题</div>
+                            <div class="status-indicator status-completed"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arrow"></div>
+
+                <!-- 输出格式化器 -->
+                <div class="node formatter">
+                    <div class="node-title">📊 输出格式化器</div>
+                    <div class="node-description">格式化JSON输出和质量验证</div>
+                    <div class="status-indicator status-completed"></div>
+                </div>
+
+                <!-- 条件判断3 -->
+                <div class="conditional-arrow">
+                    <div class="diamond">
+                        <div class="diamond-text">格式化<br/>成功?</div>
+                    </div>
+                </div>
+
+                <!-- 结束节点 -->
+                <div class="node end">
+                    <div class="node-title">🏁 结束</div>
+                    <div class="node-description">工作流完成</div>
+                    <div class="status-indicator status-completed"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3 class="legend-title">🎨 节点类型说明</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #81C784, #66BB6A);"></div>
+                    <span><strong>开始/结束节点</strong> - 工作流起止点</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #64B5F6, #42A5F5);"></div>
+                    <span><strong>文档处理器</strong> - 输入文档处理</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #BA68C8, #AB47BC);"></div>
+                    <span><strong>文档分析器</strong> - 内容分析和提取</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #FFB74D, #FFA726);"></div>
+                    <span><strong>题目生成器</strong> - 各类题目生成</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #4FC3F7, #29B6F6);"></div>
+                    <span><strong>输出格式化</strong> - 结果格式化</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: linear-gradient(135deg, #E57373, #EF5350);"></div>
+                    <span><strong>错误处理器</strong> - 异常处理</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3 class="legend-title">📈 节点状态说明</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <div class="legend-color status-pending"></div>
+                    <span><strong>待处理</strong> - 节点尚未执行</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color status-running"></div>
+                    <span><strong>运行中</strong> - 节点正在执行</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color status-completed"></div>
+                    <span><strong>已完成</strong> - 节点执行成功</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color status-error"></div>
+                    <span><strong>错误</strong> - 节点执行失败</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <h3 class="graph-title">💡 工作流程详细说明</h3>
+            <div style="text-align: left; line-height: 1.8;">
+                <h4 style="color: #667eea; margin-bottom: 15px;">📋 执行流程：</h4>
+                <ol style="padding-left: 20px;">
+                    <li><strong>文档处理：</strong>读取并预处理Markdown文档，验证格式和内容</li>
+                    <li><strong>内容分析：</strong>使用LLM提取文档的关键点、主题和知识结构</li>
+                    <li><strong>题目生成：</strong>基于分析结果，顺序生成三种类型的题目
+                        <ul style="margin: 5px 0; padding-left: 20px;">
+                            <li>选择题：多选项问答题</li>
+                            <li>填空题：关键词填空</li>
+                            <li>连线题：概念匹配</li>
+                        </ul>
+                    </li>
+                    <li><strong>格式化输出：</strong>整理题目为标准JSON格式，进行质量验证</li>
+                </ol>
+                
+                <h4 style="color: #667eea; margin: 20px 0 15px 0;">🔄 容错机制：</h4>
+                <ul style="padding-left: 20px;">
+                    <li>每个关键步骤都有条件判断和错误处理</li>
+                    <li>LLM调用失败时自动使用备选模型</li>
+                    <li>错误信息被记录并传递给错误处理器</li>
+                    <li>支持部分失败的优雅降级</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

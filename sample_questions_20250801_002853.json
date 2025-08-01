@@ -1,0 +1,285 @@
+{
+  "metadata": {
+    "document_title": "sample_document",
+    "generated_at": "2025-08-01T00:29:19.706936",
+    "statistics": {
+      "total_questions": 11,
+      "multiple_choice_count": 4,
+      "fill_in_the_blank_count": 5,
+      "matching_count": 2,
+      "generation_timestamp": "2025-08-01T00:29:19.706936"
+    },
+    "validation": {
+      "valid": true,
+      "issues": [],
+      "quality_score": 1.0
+    }
+  },
+  "questions": {
+    "multiple_choice": [
+      {
+        "question_id": "mc_001",
+        "question_type": "multiple_choice",
+        "question_text": "以下关于机器学习的描述，哪一项是正确的？",
+        "difficulty": "easy",
+        "topic": "主要主题",
+        "explanation": "机器学习是人工智能的一个分支，其核心思想是让计算机通过数据学习规律，而不是依赖明确的编程指令。其他选项均与机器学习的基本定义不符。",
+        "options": [
+          "A. 机器学习依赖明确的编程指令来完成所有任务",
+          "B. 机器学习是一种使计算机能够在不被明确编程的情况下进行学习的技术",
+          "C. 机器学习仅限于图像识别领域",
+          "D. 机器学习模型必须始终使用无标记数据进行训练"
+        ],
+        "correct_answer": "B. 机器学习是一种使计算机能够在不被明确编程的情况下进行学习的技术"
+      },
+      {
+        "question_id": "mc_002",
+        "question_type": "multiple_choice",
+        "question_text": "监督学习通常用于解决以下哪类问题？",
+        "difficulty": "easy",
+        "topic": "关键知识点",
+        "explanation": "监督学习使用带有标签的数据进行训练，目标是让模型能够对未知数据进行预测，包括分类和回归任务。选项D准确描述了监督学习的应用场景。",
+        "options": [
+          "A. 数据降维",
+          "B. 图像去噪",
+          "C. 对数据进行聚类分析",
+          "D. 根据已有标签预测新数据的类别或数值"
+        ],
+        "correct_answer": "D. 根据已有标签预测新数据的类别或数值"
+      },
+      {
+        "question_id": "mc_003",
+        "question_type": "multiple_choice",
+        "question_text": "以下哪一项是无监督学习的典型应用？",
+        "difficulty": "easy",
+        "topic": "关键知识点",
+        "explanation": "无监督学习用于从未标记数据中发现结构或模式，客户分群分析属于聚类任务，是无监督学习的典型应用。其他选项通常使用监督学习方法。",
+        "options": [
+          "A. 图像分类",
+          "B. 股票价格预测",
+          "C. 客户分群分析",
+          "D. 语音识别"
+        ],
+        "correct_answer": "C. 客户分群分析"
+      },
+      {
+        "question_id": "mc_004",
+        "question_type": "multiple_choice",
+        "question_text": "强化学习的主要特点是以下哪一项？",
+        "difficulty": "easy",
+        "topic": "关键知识点",
+        "explanation": "强化学习是一种通过与环境交互获得反馈，并逐步调整策略以达到最优结果的学习方式。它不依赖标记数据，而是通过试错机制进行学习。",
+        "options": [
+          "A. 使用标记数据进行模型训练",
+          "B. 通过试错与环境交互来优化策略",
+          "C. 直接预测数据的类别标签",
+          "D. 发现数据之间的相关性"
+        ],
+        "correct_answer": "B. 通过试错与环境交互来优化策略"
+      }
+    ],
+    "fill_in_the_blank": [
+      {
+        "question_id": "fb_001",
+        "question_type": "fill_in_the_blank",
+        "question_text": "____是一种机器学习方法，它不依赖于标签数据，而是通过发现数据中的内在结构和模式来进行____、降维或关联规则学习。",
+        "difficulty": "medium",
+        "topic": "主要主题",
+        "explanation": "无监督学习是一种机器学习方法，用于处理没有标签的数据集，常见的任务包括聚类（将数据划分为有意义的组）、降维（压缩数据维度）和关联规则学习（发现变量间的关系）。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "无监督学习",
+            "hint": "一种不需要标签的学习方式"
+          },
+          {
+            "position": 2,
+            "correct_answer": "聚类",
+            "hint": "将数据分成相似组的过程"
+          }
+        ]
+      },
+      {
+        "question_id": "fb_002",
+        "question_type": "fill_in_the_blank",
+        "question_text": "在____学习中，智能体通过与环境的不断交互，根据获得的____来调整策略，以达到最大化长期奖励的目的。",
+        "difficulty": "medium",
+        "topic": "主要主题",
+        "explanation": "强化学习是一种通过与环境交互进行学习的方法，智能体基于动作获得奖励或惩罚信号，并据此学习最优策略。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "强化",
+            "hint": "一种基于试错机制的学习方法"
+          },
+          {
+            "position": 2,
+            "correct_answer": "奖励",
+            "hint": "环境反馈信号"
+          }
+        ]
+      },
+      {
+        "question_id": "fb_003",
+        "question_type": "fill_in_the_blank",
+        "question_text": "线性回归主要用于预测____变量，而逻辑回归则通常用于解决____问题。",
+        "difficulty": "medium",
+        "topic": "主要主题",
+        "explanation": "线性回归是一种用于预测连续输出值的模型，而逻辑回归虽然名称中包含‘回归’，但实际用于二分类任务，输出的是样本属于某一类别的概率。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "连续值",
+            "hint": "例如房价或温度"
+          },
+          {
+            "position": 2,
+            "correct_answer": "二分类",
+            "hint": "输出只有两个类别的问题"
+          }
+        ]
+      },
+      {
+        "question_id": "fb_004",
+        "question_type": "fill_in_the_blank",
+        "question_text": "____是一种基于树结构的机器学习模型，既可以用于分类也可以用于回归；而____则是多个该模型的集成，具有更高的鲁棒性和准确性。",
+        "difficulty": "medium",
+        "topic": "主要主题",
+        "explanation": "决策树是基于树形结构的预测模型，能够处理分类和回归任务；随机森林通过集成多个决策树并进行投票或平均，显著提升了模型的泛化能力。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "决策树",
+            "hint": "一种易于解释的树形模型"
+          },
+          {
+            "position": 2,
+            "correct_answer": "随机森林",
+            "hint": "一种集成学习方法"
+          }
+        ]
+      },
+      {
+        "question_id": "fb_005",
+        "question_type": "fill_in_the_blank",
+        "question_text": "支持向量机（SVM）是一种强大的分类算法，它通过在高维空间中寻找一个____，以最大化不同类别样本之间的____。",
+        "difficulty": "medium",
+        "topic": "主要主题",
+        "explanation": "支持向量机通过构建一个最优超平面来分隔不同类别的数据点，并最大化类别之间的间隔，从而提高分类的鲁棒性和泛化能力。",
+        "blanks": [
+          {
+            "position": 1,
+            "correct_answer": "最优分离超平面",
+            "hint": "分割数据的最佳边界"
+          },
+          {
+            "position": 2,
+            "correct_answer": "间隔",
+            "hint": "分类边界与样本之间的距离"
+          }
+        ]
+      }
+    ],
+    "matching": [
+      {
+        "question_id": "mt_001",
+        "question_type": "matching",
+        "question_text": "请将下列机器学习相关概念与其对应的定义进行匹配：",
+        "difficulty": "medium",
+        "topic": "机器学习基础",
+        "explanation": "决策树和随机森林是基于树结构的模型，用于分类和回归；支持向量机通过寻找最优超平面进行分类；神经网络模拟人脑结构适合处理非线性问题；过拟合描述的是模型在训练集表现好但在新数据上泛化差的现象。",
+        "left_items": [
+          "决策树与随机森林",
+          "支持向量机",
+          "神经网络",
+          "过拟合"
+        ],
+        "right_items": [
+          "在高维空间寻找最优分离超平面以提高分类准确性",
+          "模拟人脑神经元结构，适用于复杂非线性建模",
+          "基于树结构的分类和回归方法",
+          "模型在训练数据上表现很好但在新数据上泛化能力差"
+        ],
+        "correct_pairs": [
+          {
+            "left_item": "决策树与随机森林",
+            "right_item": "基于树结构的分类和回归方法"
+          },
+          {
+            "left_item": "支持向量机",
+            "right_item": "在高维空间寻找最优分离超平面以提高分类准确性"
+          },
+          {
+            "left_item": "神经网络",
+            "right_item": "模拟人脑神经元结构，适用于复杂非线性建模"
+          },
+          {
+            "left_item": "过拟合",
+            "right_item": "模型在训练数据上表现很好但在新数据上泛化能力差"
+          }
+        ]
+      },
+      {
+        "question_id": "mt_002",
+        "question_type": "matching",
+        "question_text": "请将下列机器学习术语与其对应的描述进行匹配：",
+        "difficulty": "medium",
+        "topic": "机器学习基础",
+        "explanation": "特征是输入变量，标签是目标输出，训练集是用于训练模型的数据，而欠拟合是指模型太简单无法捕捉数据中的规律。",
+        "left_items": [
+          "特征",
+          "标签",
+          "训练集",
+          "欠拟合"
+        ],
+        "right_items": [
+          "模型过于简单，无法有效捕获数据中的潜在模式",
+          "用于训练模型的数据集合",
+          "模型预测的目标变量",
+          "用于描述输入变量或属性"
+        ],
+        "correct_pairs": [
+          {
+            "left_item": "特征",
+            "right_item": "用于描述输入变量或属性"
+          },
+          {
+            "left_item": "标签",
+            "right_item": "模型预测的目标变量"
+          },
+          {
+            "left_item": "训练集",
+            "right_item": "用于训练模型的数据集合"
+          },
+          {
+            "left_item": "欠拟合",
+            "right_item": "模型过于简单，无法有效捕获数据中的潜在模式"
+          }
+        ]
+      }
+    ]
+  },
+  "document_analysis": {
+    "topics": [
+      "主要主题",
+      "机器学习的定义与基本原理",
+      "机器学习的主要类型与任务",
+      "机器学习常用算法与应用",
+      "机器学习关键概念与评估方法"
+    ],
+    "key_points": [
+      "关键知识点",
+      "机器学习是人工智能的一个重要分支，使计算机能够在不被明确编程的情况下进行学习",
+      "监督学习使用标记数据进行预测，包括分类和回归任务",
+      "无监督学习从未标记数据中发现模式，包括聚类、降维和关联规则学习",
+      "强化学习通过试错与环境交互来学习最优策略",
+      "线性回归用于预测连续值，逻辑回归用于二分类问题",
+      "决策树和随机森林是基于树结构的分类和回归方法",
+      "支持向量机在高维空间寻找最优分离超平面以提高分类准确性",
+      "神经网络模拟人脑神经元结构，适用于复杂非线性建模",
+      "特征、标签、训练集和测试集是构建机器学习模型的基本组成部分",
+      "过拟合是指模型在训练数据上表现很好但在新数据上泛化能力差",
+      "欠拟合是指模型过于简单，无法有效捕获数据中的潜在模式"
+    ]
+  }
+}

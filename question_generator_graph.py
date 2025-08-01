@@ -295,4 +295,140 @@ graph TD
                 if node_status == "pending":
                     status[node] = "error"
         
-        return status 
+        return status
+    
+    def save_graph_visualization(self, output_dir: str = ".") -> Dict[str, str]:
+        """
+        保存图结构的可视化文件
+        
+        Args:
+            output_dir: 输出目录
+            
+        Returns:
+            保存的文件路径字典
+        """
+        import os
+        from datetime import datetime
+        
+        # 确保输出目录存在
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        files_saved = {}
+        
+        try:
+            # 1. 保存Mermaid PNG图片
+            try:
+                from IPython.display import Image
+                from langchain_core.runnables.graph import MermaidDrawMethod
+                
+                png_data = self.graph.get_graph().draw_mermaid_png(draw_method=MermaidDrawMethod.API)
+                png_path = os.path.join(output_dir, f"langgraph_structure.png")
+                
+                with open(png_path, "wb") as f:
+                    f.write(png_data)
+                files_saved["mermaid_png"] = png_path
+                print(f"✅ Mermaid PNG图片已保存: {png_path}")
+                
+            except Exception as e:
+                print(f"⚠️  保存Mermaid PNG失败: {e}")
+                # 尝试保存Mermaid源码
+                try:
+                    mermaid_code = self.graph.get_graph().draw_mermaid()
+                    mermaid_path = os.path.join(output_dir, f"langgraph_structure.mmd")
+                    
+                    with open(mermaid_path, "w", encoding="utf-8") as f:
+                        f.write(mermaid_code)
+                    files_saved["mermaid_code"] = mermaid_path
+                    print(f"✅ Mermaid源码已保存: {mermaid_path}")
+                    
+                except Exception as e2:
+                    print(f"⚠️  保存Mermaid源码也失败: {e2}")
+            
+            # 2. 保存ASCII结构
+            try:
+                ascii_structure = self.graph.get_graph().print_ascii()
+                ascii_path = os.path.join(output_dir, f"langgraph_ascii.txt")
+                
+                with open(ascii_path, "w", encoding="utf-8") as f:
+                    f.write(ascii_structure)
+                files_saved["ascii_structure"] = ascii_path
+                print(f"✅ ASCII结构图已保存: {ascii_path}")
+                
+            except Exception as e:
+                print(f"⚠️  保存ASCII结构失败: {e}")
+            
+            # 3. 保存自定义Mermaid图（备用）
+            try:
+                custom_mermaid = self.get_graph_visualization()
+                custom_path = os.path.join(output_dir, f"langgraph_custom.mmd")
+                
+                with open(custom_path, "w", encoding="utf-8") as f:
+                    f.write(custom_mermaid)
+                files_saved["custom_mermaid"] = custom_path
+                print(f"✅ 自定义Mermaid图已保存: {custom_path}")
+                
+            except Exception as e:
+                print(f"⚠️  保存自定义Mermaid图失败: {e}")
+            
+        except Exception as e:
+            print(f"❌ 保存图结构时出现错误: {e}")
+        
+        return files_saved
+    
+    def print_graph_structure(self):
+        """
+        打印图结构信息
+        """
+        print("=" * 60)
+        print("🔍 LangGraph 结构信息")
+        print("=" * 60)
+        
+        try:
+            # 打印ASCII结构
+            print("\n📊 ASCII 结构图:")
+            print("-" * 40)
+            ascii_output = self.graph.get_graph().print_ascii()
+            print(ascii_output)
+            
+        except Exception as e:
+            print(f"⚠️  获取ASCII结构失败: {e}")
+        
+        try:
+            # 打印Mermaid代码
+            print("\n🎨 Mermaid 图形代码:")
+            print("-" * 40)
+            mermaid_code = self.graph.get_graph().draw_mermaid()
+            print(mermaid_code)
+            
+        except Exception as e:
+            print(f"⚠️  获取Mermaid代码失败: {e}")
+        
+        # 打印节点信息
+        print("\n📋 节点详细信息:")
+        print("-" * 40)
+        nodes_info = [
+            ("document_processor", "📄 文档处理器", "加载和预处理Markdown文档"),
+            ("document_analyzer", "🔍 文档分析器", "提取关键点和主题"),
+            ("generate_multiple_choice", "📝 选择题生成器", "生成多选题"),
+            ("generate_fill_blank", "✏️ 填空题生成器", "生成填空题"),
+            ("generate_matching", "🔗 连线题生成器", "生成匹配题"),
+            ("format_output", "📊 输出格式化器", "格式化JSON输出和质量验证"),
+            ("error_handler", "⚠️ 错误处理器", "处理和记录错误")
+        ]
+        
+        for node_id, name, desc in nodes_info:
+            print(f"  • {name}: {desc}")
+        
+        print("\n🔄 条件分支:")
+        print("-" * 40)
+        conditions = [
+            ("document_processor", "处理成功? → 文档分析器 | 错误处理器"),
+            ("document_analyzer", "分析成功? → 选择题生成器 | 错误处理器"), 
+            ("format_output", "格式化成功? → 结束 | 错误处理器")
+        ]
+        
+        for node, condition in conditions:
+            print(f"  • {node}: {condition}")
+        
+        print("=" * 60) 

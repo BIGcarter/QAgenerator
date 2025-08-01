@@ -1,0 +1,28 @@
+
+graph TD
+    A[Document Processor] --> B{Processing OK?}
+    B -->|Yes| C[Document Analyzer]
+    B -->|No| H[Error Handler]
+    
+    C --> D{Analysis OK?}
+    D -->|Yes| E[Generate Multiple Choice]
+    D -->|No| H
+    
+    E --> F[Generate Fill-in-the-Blank]
+    F --> G[Generate Matching]
+    G --> I[Format Output]
+    
+    I --> J{Formatting OK?}
+    J -->|Yes| K[End]
+    J -->|No| H
+    
+    H --> K
+    
+    style A fill:#e1f5fe
+    style C fill:#f3e5f5
+    style E fill:#fff3e0
+    style F fill:#fff3e0
+    style G fill:#fff3e0
+    style I fill:#e8f5e8
+    style H fill:#ffebee
+    style K fill:#f1f8e9

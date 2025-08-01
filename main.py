@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Author: Xiaofeng Mai, vibe coding with cursor.
 AI教育题目生成应用 - 主程序入口
@@ -209,6 +210,13 @@ class QuestionGeneratorApp:
         print("1. 选择题 (Multiple Choice)")
         print("2. 填空题 (Fill-in-the-Blank)")
         print("3. 连线题 (Matching)")
+        print("\n📊 图结构可视化功能:")
+        print("  --graph              显示详细的图结构信息（ASCII + Mermaid）")
+        print("  --save-graph ./imgs  保存图结构可视化文件到指定目录")
+        print("\n💡 使用示例:")
+        print("  python main.py --graph                   # 查看图结构")
+        print("  python main.py --save-graph ./output     # 保存图片文件")
+        print("  python main.py --sample                  # 生成示例题目")
     
     def create_sample_document(self, filename: str = "sample_document.md"):
         """创建示例文档"""
@@ -273,112 +281,6 @@ class QuestionGeneratorApp:
             return None
 
 
-async def run_test_mode(output_path: str):
-    """运行测试模式，生成示例题目"""
-    from schemas import QuestionSet, MultipleChoiceQuestion, FillInTheBlankQuestion, MatchingQuestion, MatchingPair
-    from datetime import datetime
-    
-    print("🧪 运行测试模式 - 生成示例题目")
-    
-    # 创建示例题目
-    mc_questions = [
-        MultipleChoiceQuestion(
-            question_id="mc_test_001",
-            question_text="机器学习的主要目标是什么？",
-            options=["A. 让计算机变得更快", "B. 让计算机能够自动学习", "C. 减少内存使用", "D. 增加存储容量"],
-            correct_answer="B. 让计算机能够自动学习",
-            topic="机器学习基础",
-            difficulty="easy",
-            explanation="机器学习的核心是让计算机能够从数据中自动学习模式和规律"
-        )
-    ]
-    
-    fib_questions = [
-        FillInTheBlankQuestion(
-            question_id="fib_test_001",
-            question_text="____是一种监督学习算法，通过____来预测连续值。",
-            blanks=[
-                {"position": 1, "correct_answer": "线性回归", "hint": "用于预测连续值的算法"},
-                {"position": 2, "correct_answer": "线性关系", "hint": "特征与目标的关系"}
-            ],
-            topic="机器学习算法",
-            difficulty="medium",
-            explanation="线性回归通过建立特征与目标变量之间的线性关系来进行预测"
-        )
-    ]
-    
-    matching_questions = [
-        MatchingQuestion(
-            question_id="mt_test_001",
-            question_text="请将下列机器学习概念与其定义进行匹配：",
-            left_items=["监督学习", "无监督学习", "强化学习", "深度学习"],
-            right_items=["使用标记数据训练", "发现隐藏模式", "通过试错学习", "多层神经网络"],
-            correct_pairs=[
-                MatchingPair(left_item="监督学习", right_item="使用标记数据训练"),
-                MatchingPair(left_item="无监督学习", right_item="发现隐藏模式"),
-                MatchingPair(left_item="强化学习", right_item="通过试错学习"),
-                MatchingPair(left_item="深度学习", right_item="多层神经网络")
-            ],
-            topic="机器学习类型",
-            difficulty="hard",
-            explanation="这些是机器学习的主要分类及其特点"
-        )
-    ]
-    
-    # 创建题目集合
-    question_set = QuestionSet(
-        document_title="测试文档 - 机器学习基础",
-        multiple_choice=mc_questions,
-        fill_in_the_blank=fib_questions,
-        matching=matching_questions,
-        generated_at=datetime.now().isoformat()
-    )
-    
-    # 生成输出
-    output = {
-        "metadata": {
-            "document_title": question_set.document_title,
-            "generated_at": question_set.generated_at,
-            "statistics": {
-                "total_questions": question_set.total_questions(),
-                "multiple_choice_count": len(question_set.multiple_choice),
-                "fill_in_the_blank_count": len(question_set.fill_in_the_blank),
-                "matching_count": len(question_set.matching),
-                "generation_timestamp": question_set.generated_at
-            },
-            "validation": {
-                "valid": True,
-                "quality_score": 1.0,
-                "issues": []
-            }
-        },
-        "questions": {
-            "multiple_choice": [q.dict() for q in question_set.multiple_choice],
-            "fill_in_the_blank": [q.dict() for q in question_set.fill_in_the_blank],
-            "matching": [q.dict() for q in question_set.matching]
-        },
-        "document_analysis": {
-            "topics": ["机器学习基础", "监督学习", "无监督学习"],
-            "key_points": ["机器学习定义", "算法分类", "应用场景"]
-        }
-    }
-    
-    # 保存到文件
-    if output_path:
-        with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump(output, f, ensure_ascii=False, indent=2)
-        
-        print(f"\n✅ 测试题目生成成功!")
-        print(f"📁 输出文件: {output_path}")
-        print(f"\n📊 生成统计:")
-        print(f"   总题目数: {output['metadata']['statistics']['total_questions']}")
-        print(f"   选择题: {output['metadata']['statistics']['multiple_choice_count']}")
-        print(f"   填空题: {output['metadata']['statistics']['fill_in_the_blank_count']}")
-        print(f"   连线题: {output['metadata']['statistics']['matching_count']}")
-        print(f"\n💡 这是测试模式生成的示例题目，展示了系统的输出格式")
-    else:
-        print("未指定输出文件")
-
 
 async def main():
     """主函数"""
@@ -389,7 +291,9 @@ async def main():
     parser.add_argument('--content', '-c', type=str, help='文档内容（用于文本输入）')
     parser.add_argument('--sample', '-s', action='store_true', help='创建并使用示例文档')
     parser.add_argument('--info', action='store_true', help='显示系统信息')
-    parser.add_argument('--test', action='store_true', help='测试模式（生成模拟数据，无需API密钥）')
+
+    parser.add_argument('--graph', action='store_true', help='显示图结构信息（ASCII和Mermaid）')
+    parser.add_argument('--save-graph', type=str, metavar='DIR', help='保存图结构可视化文件到指定目录')
     
     args = parser.parse_args()
     
@@ -401,7 +305,7 @@ async def main():
         print("\n💡 可能的解决方案：")
         print("1. 检查API密钥是否正确设置")
         print("2. 检查网络连接是否正常")
-        print("3. 尝试使用测试模式：python main.py --test")
+        print("3. 查看图结构：python main.py --graph")
         return
     
     # 显示系统信息
@@ -409,10 +313,26 @@ async def main():
         app.print_graph_info()
         return
     
-    # 测试模式
-    if args.test:
-        await run_test_mode(args.output)
+    # 显示图结构
+    if args.graph:
+        app.graph.print_graph_structure()
         return
+    
+    # 保存图结构可视化
+    if args.save_graph:
+        output_dir = args.save_graph
+        print(f"🔍 正在保存图结构可视化到目录: {output_dir}")
+        files_saved = app.graph.save_graph_visualization(output_dir)
+        
+        if files_saved:
+            print(f"\n✅ 图结构可视化保存完成，共保存 {len(files_saved)} 个文件:")
+            for file_type, file_path in files_saved.items():
+                print(f"   • {file_type}: {file_path}")
+        else:
+            print("\n⚠️  未能保存任何图结构文件")
+        return
+    
+
     
     # 处理示例文档
     if args.sample:
@@ -468,11 +388,12 @@ async def main():
         print("请提供输入文件 (--file) 或文本内容 (--title 和 --content)")
         print("\n可用选项：")
         print("  --sample, -s    创建并处理示例文档")
-        print("  --test          测试模式（无需API密钥）")
         print("  --info          查看系统信息")
+        print("  --graph         显示图结构信息（ASCII和Mermaid）")
+        print("  --save-graph    保存图结构可视化文件")
         print("  --help          查看完整帮助")
-        print("\n💡 如果没有API密钥，可以先运行测试模式查看效果：")
-        print("     python main.py --test --output test_questions.json")
+        print("\n💡 可以先使用示例文档查看效果：")
+        print("     python main.py --sample")
 
 
 if __name__ == "__main__":

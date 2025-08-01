@@ -10,6 +10,7 @@
 - **多LLM支持**：优先使用通义千问，支持OpenAI作为备选
 - **结构化输出**：JSON格式便于后续处理和可视化
 - **质量验证**：内置题目质量检查机制
+- **图结构可视化**：支持查看和保存LangGraph工作流结构图
 
 ## 🏗️ 项目结构
 
@@ -80,23 +81,27 @@ python main.py --info
 - `--title, -t`: 文档标题（用于文本输入）
 - `--content, -c`: 文档内容（用于文本输入）
 - `--sample, -s`: 创建并使用示例文档
-- `--test`: 测试模式（无需API密钥）
 - `--info`: 显示系统信息
+- `--graph`: 显示图结构信息（ASCII和Mermaid）
+- `--save-graph DIR`: 保存图结构可视化文件到指定目录
 
 ### 使用示例
 
 ```bash
-# 1. 测试模式（无需API密钥）
-python main.py --test --output test_questions.json
-
-# 2. 处理Markdown文档
+# 1. 处理Markdown文档
 python main.py --file lesson.md --output questions.json
 
-# 3. 直接输入文本内容
+# 2. 直接输入文本内容
 python main.py --title "Python基础" --content "Python是一种编程语言..." --output python_questions.json
 
-# 4. 使用示例文档测试
+# 3. 使用示例文档测试
 python main.py --sample --output sample_output.json
+
+# 4. 查看图结构
+python main.py --graph
+
+# 5. 保存图结构可视化文件
+python main.py --save-graph ./graph_output
 ```
 
 ### 编程接口
@@ -190,6 +195,10 @@ max_tokens: int = 2000  # 最大token数
 
 系统采用LangGraph构建的工作流：
 
+![LangGraph工作流结构图](langgraph_structure.png)
+
+*上图展示了完整的LangGraph工作流结构，包括各个处理节点、条件分支和错误处理机制*
+
 1. **API连接测试**：自动测试API密钥有效性和网络连接
 2. **文档处理**：解析Markdown文档，清理格式
 3. **文档分析**：提取主题和关键知识点
@@ -246,7 +255,7 @@ def _create_custom_llm(self):
    - 检查输入文档质量
 
 4. **初始化失败**
-   - 运行测试模式验证系统: `python main.py --test`
+   - 查看图结构验证系统: `python main.py --graph`
    - 检查所有依赖是否正确安装
    - 查看详细错误信息进行排查
 
